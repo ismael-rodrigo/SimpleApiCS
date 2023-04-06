@@ -1,9 +1,24 @@
 ﻿namespace SimpleApiRest
 {
-    public class Settings
-    {
-        public static string SecretKey = "kasasodj12o3jq23b4jh23n42k3n42k3";
 
+    public interface ISettings
+    {
+        public string AccessSecretKey { get; }
+        public string RefreshSecretKey { get; }
 
     }
+
+
+    public class Settings : ISettings
+    {
+        public string AccessSecretKey { get; }
+        public string RefreshSecretKey { get; }
+
+        public Settings(
+            IConfiguration configuration)
+        {
+            AccessSecretKey = configuration.GetValue<string>("Jwt:AccessToken:Key");
+            RefreshSecretKey = configuration.GetValue<string>("Jwt:RefreshToken:Key");
+        }
+    };
 }

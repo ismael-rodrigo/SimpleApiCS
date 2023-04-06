@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleApiRest.Dtos;
 using SimpleApiRest.Infra;
 using SimpleApiRest.Model;
 using SimpleApiRest.Services;
+using SimpleApiRest.Services.Interface;
 
 namespace SimpleApiRest.Controllers
 {
@@ -11,25 +13,39 @@ namespace SimpleApiRest.Controllers
     [Route("user")]
     public class UserController : ControllerBase
     {
-        [HttpPost]
-        [Route("login2")]
-        public IActionResult LoginUser()
+        private readonly IJwtService _jwtService;
+        public UserController(IJwtService jwtService)
         {
-            var token = TokenService.GenerateToke("ismael");
-            return Ok(token);
+            _jwtService = jwtService;
+        }
+        
+        
+        [HttpPost, Route("login")]
+        public TokenResponseDto LoginUser([FromBody] User user)
+        {
+            var response = new TokenResponseDto {
+                AccessToken = _jwtService.GenerateAccessToken( 
+                    new PayloadForGenerateToken {
+                        user = user
+                    }),
+                RefreshToken = _jwtService.GenerateRefreshToken( 
+                    new PayloadForGenerateToken {
+                        user = user
+                    })
+            };
+            
+            return response;
         }
 
 
         [HttpGet(Name = "Get Users")]
-        [Authorize]
+        [Authorize("owner")]
         public async Task<IActionResult> GetAllUSers(
             [FromServices] AppDataContext dbContext )
         {
-            var users = await dbContext.User
+            var users = await dbContext.Users
                 .AsNoTracking()
                 .ToListAsync();
-
-
             return Ok(users);
         }
 
