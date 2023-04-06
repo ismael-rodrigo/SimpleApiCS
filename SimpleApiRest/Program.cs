@@ -11,6 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthenticationSetup(builder.Configuration);
+builder.Services.AddMyFilters();
+
 builder.Services.AddAuthorizationPolicies();
 builder.Services.AddDbContext<AppDataContext>();
 builder.Services.AddSingleton<ISettings, Settings>();

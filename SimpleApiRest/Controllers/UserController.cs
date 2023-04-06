@@ -10,36 +10,12 @@ using SimpleApiRest.Services.Interface;
 namespace SimpleApiRest.Controllers
 {
     [ApiController]
-    [Route("user")]
+    [Route("users")]
     public class UserController : ControllerBase
     {
-        private readonly IJwtService _jwtService;
-        public UserController(IJwtService jwtService)
-        {
-            _jwtService = jwtService;
-        }
         
-        
-        [HttpPost, Route("login")]
-        public TokenResponseDto LoginUser([FromBody] User user)
-        {
-            var response = new TokenResponseDto {
-                AccessToken = _jwtService.GenerateAccessToken( 
-                    new PayloadForGenerateToken {
-                        user = user
-                    }),
-                RefreshToken = _jwtService.GenerateRefreshToken( 
-                    new PayloadForGenerateToken {
-                        user = user
-                    })
-            };
-            
-            return response;
-        }
-
-
         [HttpGet(Name = "Get Users")]
-        [Authorize("owner")]
+        [Authorize]
         public async Task<IActionResult> GetAllUSers(
             [FromServices] AppDataContext dbContext )
         {
@@ -49,6 +25,21 @@ namespace SimpleApiRest.Controllers
             return Ok(users);
         }
 
-       
+        [HttpPost(Name = "Register User")] 
+        public async Task<IActionResult> RegisterNewUser(
+            [FromServices] AppDataContext dbContext,
+            [FromBody] User user
+            
+            )
+        {
+            var users = dbContext.Users.Add(
+                new User
+                {
+                    FullName = user.FullName,
+                    Password = user.Password
+                });
+            await dbContext.SaveChangesAsync();
+            return Ok(users.Entity);
+        }
     }
 }
