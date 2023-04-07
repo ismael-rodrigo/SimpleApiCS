@@ -11,11 +11,11 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
 builder.Services.RegisterAuthenticationSetup(builder.Configuration);
-builder.Services.RegisterServices();
-
-builder.Services.AddAuthorizationPolicies();
 builder.Services.AddDbContext<AppDataContext>();
 builder.Services.AddSingleton<ISettings, Settings>();
+builder.Services.RegisterServices();
+builder.Services.AddAuthorizationPolicies();
+
 
 
 var app = builder.Build();

@@ -9,6 +9,7 @@ public static class InjectServices
     public static void RegisterServices(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserEntityImplRepository>();
-        services.AddScoped<CreateNewUser>();
+        services.AddScoped<GenericCrudUserUseCase>();
+        services.AddScoped<LoginUserUseCase>();
     }
 }

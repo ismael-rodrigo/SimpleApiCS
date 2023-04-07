@@ -7,13 +7,13 @@ using SimpleApiRest.Domain.Ports.Services;
 
 namespace SimpleApiRest.Services
 {
-    public class JwtServiceImplementation : IJwtService
+    public class JwtService : IJwtService
     {
         private readonly JwtSecurityTokenHandler _jwtHandler;
         private readonly SymmetricSecurityKey _securityAccessKey;
         private readonly SymmetricSecurityKey _securityRefreshKey;
         
-        public JwtServiceImplementation (
+        public JwtService (
             JwtSecurityTokenHandler jwtHandler,
             ISettings settings
             )
@@ -55,7 +55,7 @@ namespace SimpleApiRest.Services
         {
             var clains = new List<Claim>();
             clains.Add(new Claim("Id" , user.Id.ToString()));
-            clains.Add(new Claim(ClaimTypes.Name , user.FullName));
+            clains.Add(new Claim(ClaimTypes.Name , user.UserName));
             return clains;
         }
     }

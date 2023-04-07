@@ -46,6 +46,6 @@ public static class AuthenticationSetup
             });
         
         services.AddSingleton(new JwtSecurityTokenHandler());
-        services.AddSingleton<IJwtService, JwtServiceImplementation>();
+        services.AddSingleton<IJwtService, JwtService>();
     }
 }

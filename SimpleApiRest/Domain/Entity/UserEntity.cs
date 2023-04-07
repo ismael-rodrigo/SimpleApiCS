@@ -3,31 +3,31 @@ namespace SimpleApiRest.Domain.Entity;
 
 public class UserEntityInput
 {
-    public string FullName { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    public string UserName { get; set; }
+    public string Password { get; set; }
 }
 
 public class UserEntity
 {
-    private string FullName { get; set; } 
+    private string UserName { get; set; } 
     private string Password { get; set; } 
     
-    private UserEntity(string fullName, string password)
+    private UserEntity(string userName, string password)
     {
-        FullName = fullName;
+        UserName = userName;
         Password = password;
     }
 
     public static UserEntity Create(UserEntityInput input)
     {
-        return new UserEntity(input.FullName, input.Password);
+        return new UserEntity(input.UserName, input.Password);
     }
 
     public UserModel GetModel()
     {
         return new UserModel
         {
-            FullName = FullName,
+            UserName = UserName,
             Password = Password
         };
     }

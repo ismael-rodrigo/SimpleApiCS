@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleApiRest.Domain.Entity;
 using SimpleApiRest.Domain.UseCases;
+using SimpleApiRest.Dtos.Request;
 using SimpleApiRest.External.DataBase.EntityImplementationRepository.User;
 using SimpleApiRest.Infra;
 
@@ -26,11 +27,17 @@ namespace SimpleApiRest.Controllers
 
         [HttpPost(Name = "Register User")] 
         public async Task<IActionResult> RegisterNewUser(
-            [FromServices] CreateNewUser newUserUseCase,
-            [FromBody] UserEntityInput entityInput
+            [FromServices] GenericCrudUserUseCase newUserUseCaseUseCase,
+            [FromBody] RegisterUserRequest userRequest
         )
         {
-            var result = await newUserUseCase.Execute(entityInput);
+            
+            var result = await newUserUseCaseUseCase.Execute(new UserEntityInput
+            {
+                UserName = userRequest.UserName,
+                Password = userRequest.Password
+            });
+            
             return new OkObjectResult(result);
         }
     }

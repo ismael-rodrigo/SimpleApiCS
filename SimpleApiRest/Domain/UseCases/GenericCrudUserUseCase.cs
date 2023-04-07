@@ -4,10 +4,10 @@ using SimpleApiRest.Domain.Ports.Repository.User;
 
 namespace SimpleApiRest.Domain.UseCases;
 
-public class CreateNewUser
+public class GenericCrudUserUseCase
 {
     private readonly IUserRepository _userRepository;
-    public CreateNewUser(
+    public GenericCrudUserUseCase(
         IUserRepository userRepository)
     {
         _userRepository = userRepository;

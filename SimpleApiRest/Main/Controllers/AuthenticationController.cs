@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleApiRest.Domain.Ports.Services;
+using SimpleApiRest.Domain.UseCases;
 using SimpleApiRest.Dtos;
 using SimpleApiRest.Dtos.Request;
 using SimpleApiRest.Infra;
@@ -12,36 +13,20 @@ namespace SimpleApiRest.Controllers;
 [Route("auth")]
 public class AuthenticationController
 {
-    private readonly IJwtService _jwtService;
-    public AuthenticationController( IJwtService jwtService ) { _jwtService = jwtService; }
-    
     [HttpPost]
     [Route("login")]
     public async Task<IActionResult> Login(
-        [FromServices] AppDataContext dbContext,
+        [FromServices] LoginUserUseCase loginUserUseCase,
         [FromBody] UserLoginRequestDto user )
     {
-
-        var userInDb = await dbContext.Users
-            .AsNoTracking()
-            .Where(userDb => userDb.FullName == user.FullName)
-            .FirstOrDefaultAsync();
-        
-        if (userInDb == null)
+        try
         {
-            return new BadRequestObjectResult("User not exists");
+            var result = await loginUserUseCase.Execute(user.UserName, user.Password);
+            return new OkObjectResult(result);
         }
-
-        var tokenResponse = new TokenResponseDto {
-                AccessToken = _jwtService.GenerateAccessToken( new PayloadForGenerateToken { user = userInDb }),
-                RefreshToken = _jwtService.GenerateRefreshToken( new PayloadForGenerateToken { user = userInDb } )
-        };
-
-        return new OkObjectResult(tokenResponse);
+        catch (Exception e)
+        {
+            return new BadRequestObjectResult(e.Message);
         }
-
-
+    }
 }
-
-
-    

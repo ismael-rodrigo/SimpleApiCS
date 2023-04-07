@@ -9,7 +9,8 @@ namespace SimpleApiRest.Infra
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite(connectionString: "DataSource=app.db;Cache=Shared");
+            
+            options.UseSqlite(connectionString: "DataSource=External/DataBase/app.db;Cache=Shared");
         }
 
     }
