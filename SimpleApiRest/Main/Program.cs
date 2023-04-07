@@ -10,8 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthenticationSetup(builder.Configuration);
-builder.Services.AddMyFilters();
+builder.Services.RegisterAuthenticationSetup(builder.Configuration);
+builder.Services.RegisterServices();
 
 builder.Services.AddAuthorizationPolicies();
 builder.Services.AddDbContext<AppDataContext>();

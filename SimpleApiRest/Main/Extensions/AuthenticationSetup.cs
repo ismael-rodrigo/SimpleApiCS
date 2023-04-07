@@ -3,10 +3,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using SimpleApiRest.Domain.Ports.Services;
 using SimpleApiRest.Infra;
 using SimpleApiRest.Security;
 using SimpleApiRest.Services;
-using SimpleApiRest.Services.Interface;
 
 namespace SimpleApiRest.Extensions;
 
@@ -23,7 +23,7 @@ public static class AuthenticationSetup
     }
     
     
-    public static void AddAuthenticationSetup(this IServiceCollection services , IConfiguration configuration)
+    public static void RegisterAuthenticationSetup(this IServiceCollection services , IConfiguration configuration)
     {
         var accessKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("Jwt:AccessToken:Key"));
 
@@ -46,6 +46,6 @@ public static class AuthenticationSetup
             });
         
         services.AddSingleton(new JwtSecurityTokenHandler());
-        services.AddSingleton<IJwtService, JwtService>();
+        services.AddSingleton<IJwtService, JwtServiceImplementation>();
     }
 }

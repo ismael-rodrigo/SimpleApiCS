@@ -1,13 +1,12 @@
-using SimpleApiRest.Model;
+using SimpleApiRest.Domain.Models;
 
-namespace SimpleApiRest.Services.Interface;
+namespace SimpleApiRest.Domain.Ports.Services;
 
 
 public class PayloadForGenerateToken
 {
-    public User user;
+    public UserModel user;
 };
-
 
 public interface IJwtService
 {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimpleApiRest.Model;
+using SimpleApiRest.Domain.Models;
 
 namespace SimpleApiRest.Infra
 {
     public class AppDataContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

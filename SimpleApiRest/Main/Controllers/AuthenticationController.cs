@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleApiRest.Domain.Ports.Services;
 using SimpleApiRest.Dtos;
 using SimpleApiRest.Dtos.Request;
 using SimpleApiRest.Infra;
-using SimpleApiRest.Services.Interface;
 
 namespace SimpleApiRest.Controllers;
 

@@ -2,18 +2,18 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using SimpleApiRest.Model;
-using SimpleApiRest.Services.Interface;
+using SimpleApiRest.Domain.Models;
+using SimpleApiRest.Domain.Ports.Services;
 
 namespace SimpleApiRest.Services
 {
-    public class JwtService : IJwtService
+    public class JwtServiceImplementation : IJwtService
     {
         private readonly JwtSecurityTokenHandler _jwtHandler;
         private readonly SymmetricSecurityKey _securityAccessKey;
         private readonly SymmetricSecurityKey _securityRefreshKey;
         
-        public JwtService (
+        public JwtServiceImplementation (
             JwtSecurityTokenHandler jwtHandler,
             ISettings settings
             )
@@ -51,7 +51,7 @@ namespace SimpleApiRest.Services
             return _jwtHandler.WriteToken(token);  
         }
 
-        private List<Claim> GetClains(User user)
+        private List<Claim> GetClains(UserModel user)
         {
             var clains = new List<Claim>();
             clains.Add(new Claim("Id" , user.Id.ToString()));
