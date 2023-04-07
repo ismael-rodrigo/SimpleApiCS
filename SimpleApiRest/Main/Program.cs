@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AppDataContext>();
 builder.Services.AddSingleton<ISettings, Settings>();
 builder.Services.RegisterServices();
 builder.Services.AddAuthorizationPolicies();
-
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();

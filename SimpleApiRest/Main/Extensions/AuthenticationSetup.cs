@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using SimpleApiRest.Constants;
 using SimpleApiRest.Domain.Ports.Services;
 using SimpleApiRest.Infra;
 using SimpleApiRest.Security;
@@ -16,7 +17,7 @@ public static class AuthenticationSetup
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("owner",
+            options.AddPolicy(Policies.PostOwner,
                 policy => policy.Requirements.Add(new IsPostOwnerRequirement(new AppDataContext())));
         });
         services.AddSingleton<IAuthorizationHandler, IsPostOwnerHandler>();

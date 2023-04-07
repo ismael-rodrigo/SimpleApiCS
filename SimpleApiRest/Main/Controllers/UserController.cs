@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimpleApiRest.Constants;
 using SimpleApiRest.Domain.Entity;
+using SimpleApiRest.Domain.Models;
 using SimpleApiRest.Domain.UseCases;
 using SimpleApiRest.Dtos.Request;
 using SimpleApiRest.External.DataBase.EntityImplementationRepository.User;
@@ -15,9 +17,10 @@ namespace SimpleApiRest.Controllers
     {
         
         [HttpGet(Name = "Get Users")]
-        [Authorize]
+        [Route("post")]
+        [Authorize(Policies.PostOwner)]
         public async Task<IActionResult> GetAllUSers(
-            [FromServices] AppDataContext dbContext )
+            [FromServices] AppDataContext dbContext)
         {
             var users = await dbContext.Users
                 .AsNoTracking()
@@ -31,13 +34,11 @@ namespace SimpleApiRest.Controllers
             [FromBody] RegisterUserRequest userRequest
         )
         {
-            
             var result = await newUserUseCaseUseCase.Execute(new UserEntityInput
             {
                 UserName = userRequest.UserName,
                 Password = userRequest.Password
             });
-            
             return new OkObjectResult(result);
         }
     }
