@@ -1,7 +1,5 @@
-using SimpleApiRest.Domain.Models;
-
-namespace SimpleApiRest.Domain.Ports.Services;
-
+using SimpleApiRest.Domain.Entities;
+namespace SimpleApiRest.Domain.Ports;
 
 public class PayloadForGenerateToken
 {

@@ -1,9 +1,8 @@
-﻿using SimpleApiRest.Domain.Entity;
-using SimpleApiRest.Domain.Models;
+﻿using SimpleApiRest.Domain.Entities;
 
 namespace SimpleApiRest.Domain.Ports.Repository.User;
 
-public interface IUserRepository : IGenericCrudRepository<UserEntity , UserModel>
+public interface IUserRepository : IGenericRepository<UserModelInput , UserModel>
 {
-    public Task<UserModel?> FindByUserName(string userName);
+    public Task<UserModel?> FindByUserNameAsync(string userName);
 }

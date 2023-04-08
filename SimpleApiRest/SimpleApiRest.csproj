@@ -19,7 +19,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="External\DataBase\EntityImplementationRepository\" />
+    <Compile Remove="External\DataBase\Repository\Shared\ContextProvider.cs" />
+    <Compile Remove="External\Services\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Main\Dtos\Response\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="External\Services\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="External\Services\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="External\Services\Interfaces\**" />
   </ItemGroup>
 
 </Project>

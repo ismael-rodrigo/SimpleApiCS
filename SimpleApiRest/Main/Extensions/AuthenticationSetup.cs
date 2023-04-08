@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using SimpleApiRest.Constants;
-using SimpleApiRest.Domain.Ports.Services;
+using SimpleApiRest.Domain.Ports;
+using SimpleApiRest.External.Services;
 using SimpleApiRest.Infra;
 using SimpleApiRest.Security;
-using SimpleApiRest.Services;
 
 namespace SimpleApiRest.Extensions;
 

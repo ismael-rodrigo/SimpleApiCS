@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimpleApiRest.Domain.Models;
+using SimpleApiRest.Domain.Entities;
 
 namespace SimpleApiRest.Infra
 {
     public class AppDataContext : DbContext
     {
         public DbSet<UserModel> Users { get; set; }
-        public DbSet<PostModel> Posts { get; set; }
+        public DbSet<Post> Posts { get; set; }
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

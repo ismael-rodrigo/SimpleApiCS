@@ -1,24 +1,19 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SimpleApiRest.Constants;
-using SimpleApiRest.Domain.Entity;
-using SimpleApiRest.Domain.Models;
-using SimpleApiRest.Domain.UseCases;
+using SimpleApiRest.Domain.Entities;
+using SimpleApiRest.Domain.Services.User;
 using SimpleApiRest.Dtos.Request;
-using SimpleApiRest.External.DataBase.EntityImplementationRepository.User;
 using SimpleApiRest.Infra;
 
 namespace SimpleApiRest.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("user")]
     public class UserController : ControllerBase
     {
         
         [HttpGet(Name = "Get Users")]
         [Route("post")]
-        [Authorize(Policies.PostOwner)]
         public async Task<IActionResult> GetAllUSers(
             [FromServices] AppDataContext dbContext)
         {
@@ -30,15 +25,16 @@ namespace SimpleApiRest.Controllers
 
         [HttpPost(Name = "Register User")] 
         public async Task<IActionResult> RegisterNewUser(
-            [FromServices] GenericCrudUserUseCase newUserUseCaseUseCase,
+            [FromServices] UserServices newUserServicesServices,
             [FromBody] RegisterUserRequest userRequest
         )
         {
-            var result = await newUserUseCaseUseCase.Execute(new UserEntityInput
-            {
-                UserName = userRequest.UserName,
-                Password = userRequest.Password
-            });
+            var result = await newUserServicesServices.RegisterUser(
+                new UserModelInput
+                {
+                    UserName = userRequest.UserName,
+                    Password = userRequest.Password
+                });
             return new OkObjectResult(result);
         }
     }

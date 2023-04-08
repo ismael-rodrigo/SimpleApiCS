@@ -1,8 +1,9 @@
-﻿namespace SimpleApiRest.Domain.Models;
+﻿using SimpleApiRest.Domain.Entities.Shared;
 
-public class PostModel
+namespace SimpleApiRest.Domain.Entities;
+
+public class Post : EntityBase
 {
-    public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;

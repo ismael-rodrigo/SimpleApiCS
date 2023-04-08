@@ -1,11 +1,11 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using SimpleApiRest.Domain.Models;
-using SimpleApiRest.Domain.Ports.Services;
+using Microsoft.IdentityModel.Tokens;
+using SimpleApiRest.Domain.Entities;
+using SimpleApiRest.Domain.Ports;
 
-namespace SimpleApiRest.Services
+namespace SimpleApiRest.External.Services
 {
     public class JwtService : IJwtService
     {
