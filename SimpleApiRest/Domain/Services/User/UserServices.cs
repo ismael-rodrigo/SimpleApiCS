@@ -14,6 +14,12 @@ public class UserServices
 
     public async Task<UserModel> RegisterUser(UserModelInput entityInput)
     {
+        var userAlreadyExists = await _userRepository.FindByUserNameAsync(entityInput.UserName);
+        if (userAlreadyExists != null)
+        {
+            throw new Exception("User Already Exists");
+        }
+        
         var userEntity = UserModel.Create(entityInput);
         var user = await _userRepository.AddAsync(userEntity);
         await _userRepository.CommitAsync();

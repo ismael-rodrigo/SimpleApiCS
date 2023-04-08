@@ -19,15 +19,11 @@ public class IsPostOwnerHandler : AuthorizationHandler<IsPostOwnerRequirement>
     protected override async Task<Task> HandleRequirementAsync(AuthorizationHandlerContext context, IsPostOwnerRequirement requirement)
     {
         var postId = GetPostIdValueQuery(context);
-        Console.WriteLine(postId);
-        Console.WriteLine(GetUserId(context));
-
         if (postId == null)
         {
             context.Fail();
             return Task.CompletedTask;
         }
-        
         var postRequired = await requirement.DbContext.Posts.FindAsync(int.Parse(postId));
         if (postRequired == null ||
             !postRequired.UserId.Equals(GetUserId(context)))
