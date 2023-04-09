@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SimpleApiRest.Domain.Entities;
 using SimpleApiRest.Domain.Services.User;
 using SimpleApiRest.Dtos.Request;
-using SimpleApiRest.Infra;
 
 namespace SimpleApiRest.Controllers
 {
@@ -11,26 +9,18 @@ namespace SimpleApiRest.Controllers
     [Route("user")]
     public class UserController : ControllerBase
     {
+        private readonly UserServices _userServices;
+        public UserController(UserServices userServices) => _userServices = userServices;
         
-        [HttpGet(Name = "Get Users")]
-        [Route("post")]
-        public async Task<IActionResult> GetAllUSers(
-            [FromServices] AppDataContext dbContext)
+        [HttpGet()]
+        public async Task<IActionResult> GetAllUsers() => Ok(await _userServices.FindAllAsync());
+        
+        
+        [HttpPost()] 
+        public async Task<IActionResult> RegisterNewUser( [FromBody] RegisterUserRequest userRequest )
         {
-            var users = await dbContext.Users
-                .AsNoTracking()
-                .ToListAsync();
-            return Ok(users);
-        }
-
-        [HttpPost(Name = "Register User")] 
-        public async Task<IActionResult> RegisterNewUser(
-            [FromServices] UserServices newUserServicesServices,
-            [FromBody] RegisterUserRequest userRequest
-        )
-        {
-            var result = await newUserServicesServices.RegisterUser(
-                new UserModelInput
+            var result = await _userServices.RegisterUser(
+                new UserEntityInput
                 {
                     UserName = userRequest.UserName,
                     Password = userRequest.Password

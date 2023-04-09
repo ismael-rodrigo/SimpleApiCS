@@ -51,7 +51,7 @@ namespace SimpleApiRest.External.Services
             return _jwtHandler.WriteToken(token);  
         }
 
-        private List<Claim> GetClains(UserModel user)
+        private List<Claim> GetClains(UserEntity user)
         {
             var clains = new List<Claim>();
             clains.Add(new Claim("Id" , user.Id.ToString()));

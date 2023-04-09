@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Primitives;
 using SimpleApiRest.Infra;
 
-namespace SimpleApiRest.Security;
+namespace SimpleApiRest.Middlewares.Policies;
 
 public class IsPostOwnerRequirement : IAuthorizationRequirement
 {

@@ -7,7 +7,7 @@ using SimpleApiRest.Constants;
 using SimpleApiRest.Domain.Ports;
 using SimpleApiRest.External.Services;
 using SimpleApiRest.Infra;
-using SimpleApiRest.Security;
+using SimpleApiRest.Middlewares.Policies;
 
 namespace SimpleApiRest.Extensions;
 

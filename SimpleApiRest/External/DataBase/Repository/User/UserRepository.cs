@@ -7,12 +7,12 @@ using SimpleApiRest.Infra;
 
 namespace SimpleApiRest.External.DataBase.Repository.User;
 
-public class UserEntityImplRepository :  GenericRepository<UserModelInput,UserModel> , IUserRepository 
+public class UserEntityImplRepository :  GenericRepository<UserEntity> , IUserRepository 
 {
     private readonly AppDataContext _dbContext;
     public UserEntityImplRepository(AppDataContext dbContext) : base(dbContext) => _dbContext = dbContext;
     
-    public async Task<UserModel?> FindByUserNameAsync(string userName)
+    public async Task<UserEntity?> FindByUserNameAsync(string userName)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(user => user.UserName == userName);
     }

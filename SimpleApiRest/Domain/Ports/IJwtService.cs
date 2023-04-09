@@ -3,7 +3,7 @@ namespace SimpleApiRest.Domain.Ports;
 
 public class PayloadForGenerateToken
 {
-    public UserModel user;
+    public UserEntity user;
 };
 
 public interface IJwtService

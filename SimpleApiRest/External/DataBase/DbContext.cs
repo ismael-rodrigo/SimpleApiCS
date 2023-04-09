@@ -5,8 +5,8 @@ namespace SimpleApiRest.Infra
 {
     public class AppDataContext : DbContext
     {
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<PostEntity> Posts { get; set; }
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
