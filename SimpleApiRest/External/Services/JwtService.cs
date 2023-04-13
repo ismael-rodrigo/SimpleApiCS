@@ -24,11 +24,11 @@ namespace SimpleApiRest.External.Services
 
         }
 
-        public string GenerateAccessToken(PayloadForGenerateToken payload)
+        public string GenerateAccessToken(ClaimsIdentity claimsIdentity)
         {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(GetClains(payload.user)),
+                Subject = claimsIdentity,
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials( _securityAccessKey, SecurityAlgorithms.HmacSha256Signature )
             };
@@ -38,11 +38,11 @@ namespace SimpleApiRest.External.Services
 
         }
 
-        public string GenerateRefreshToken(PayloadForGenerateToken payload)
+        public string GenerateRefreshToken(ClaimsIdentity claimsIdentity)
         {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(GetClains(payload.user)),
+                Subject = claimsIdentity,
                 Expires = DateTime.UtcNow.AddHours(10),
                 SigningCredentials = new SigningCredentials( _securityRefreshKey, SecurityAlgorithms.HmacSha256Signature )
             };
@@ -51,12 +51,25 @@ namespace SimpleApiRest.External.Services
             return _jwtHandler.WriteToken(token);  
         }
 
-        private List<Claim> GetClains(UserEntity user)
+        public ClaimsPrincipal ValidateRefreshToken(string refreshToken)
         {
-            var clains = new List<Claim>();
-            clains.Add(new Claim("Id" , user.Id.ToString()));
-            clains.Add(new Claim(ClaimTypes.Name , user.UserName));
-            return clains;
+            return _jwtHandler.ValidateToken(refreshToken,new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _securityRefreshKey,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            } , out SecurityToken validatedToken);
+        }
+        
+        public List<Claim> GetClaimsByUser(UserEntity user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
+            return claims;
         }
     }
     

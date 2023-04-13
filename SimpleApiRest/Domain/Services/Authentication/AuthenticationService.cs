@@ -1,4 +1,5 @@
-﻿using SimpleApiRest.Domain.Ports;
+﻿using System.Security.Claims;
+using SimpleApiRest.Domain.Ports;
 using SimpleApiRest.Domain.Ports.Repository.User;
 
 namespace SimpleApiRest.Domain.Services.Authentication;
@@ -30,11 +31,25 @@ public class AuthenticationService
             throw new Exception("Credentials invalid");
         }
 
+        var userClaims = new ClaimsIdentity(_jwtService.GetClaimsByUser(user)); 
+        
         return new LoginResponse
         {
-            AccessToken = _jwtService.GenerateAccessToken(new PayloadForGenerateToken { user = user }),
-            RefreshToken = _jwtService.GenerateRefreshToken(new PayloadForGenerateToken { user = user })
+            AccessToken = _jwtService.GenerateAccessToken(userClaims),
+            RefreshToken = _jwtService.GenerateRefreshToken(userClaims)
         };
     }
-    
+
+
+    public LoginResponse RefreshTokens(string refreshToken)
+    {
+        var claimsPrincipal = _jwtService.ValidateRefreshToken(refreshToken);
+        var userClaims = new ClaimsIdentity(claimsPrincipal.Claims);
+        return new LoginResponse
+        {
+            AccessToken = _jwtService.GenerateAccessToken(userClaims),
+            RefreshToken = _jwtService.GenerateRefreshToken(userClaims)
+        };
+    }
+
 }
