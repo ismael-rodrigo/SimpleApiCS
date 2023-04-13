@@ -1,4 +1,5 @@
 ﻿using SimpleApiRest.Domain.Entities.Shared;
+using SimpleApiRest.Domain.Entities.Shared.Username;
 
 namespace SimpleApiRest.Domain.Entities
 {
@@ -14,15 +15,18 @@ namespace SimpleApiRest.Domain.Entities
         public string Password { get; private set; } 
         public ICollection<PostEntity> Posts { get; } = new List<PostEntity>();
         
-        private UserEntity(string userName , string password)
+        private UserEntity(UsernameEntity userName , string password)
         {
-            UserName = userName;
+            UserName = userName.Value;
             Password = password;
         }
-        
+
+        protected UserEntity() { }
+
         public static UserEntity Create(UserEntityInput input)
         {
-            return new UserEntity(input.UserName , input.Password);
+            var userName = UsernameEntity.Create(input.UserName);
+            return new UserEntity(userName , input.Password);
         }
     }
 }
